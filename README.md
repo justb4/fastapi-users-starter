@@ -4,14 +4,15 @@ This is a template repo to get you started with FastAPI + FastAPI Users.
 
 When you develop your [FastAPI](https://fastapi.tiangolo.com/) project, at some point you will need auth and users. 
 [FastAPI Users](https://fastapi-users.github.io/fastapi-users/) 
-provides *"Ready-to-use and customizable users management for FastAPI"*
+provides *"Ready-to-use and customizable users management for FastAPI"*.
 There are several examples like [this](https://github.com/tiangolo/full-stack-fastapi-postgresql) 
 and [this](https://testdriven.io/blog/developing-a-single-page-app-with-fasta) to get you started with full stack FastAPI. 
 But to get grip on the very basics of FastAPI Users I found this blogpost:
 
 https://harrisonmorgan.dev/2021/02/15/getting-started-with-fastapi-users-and-alembic/
 
-Credits here to https://harrisonmorgan.dev ! 
+Credits here to https://harrisonmorgan.dev ! And off course also 
+to [FastAPI Users Devs](https://github.com/fastapi-users/fastapi-users) and [FastAPI Devs](https://fastapi.tiangolo.com/)!
 
 Above Blogpost is from feb 2021. In the meantime FastAPI version and deps increased, so had to make some adaptations.
 These are described below. 
