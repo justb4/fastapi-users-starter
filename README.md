@@ -38,7 +38,7 @@ pyenv activate fastapi-3.8.9
 # https://python-poetry.org/
 pip install poetry
 
-# Suppose we work from this dir
+# Suppose we work from this dir, or better create new repo from Template in GitHub
 git clone https://github.com/justb4/fastapi-users-starter.git fastapi-users-starter
 cd ~/fastapi-users-starter
 
