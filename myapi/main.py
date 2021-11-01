@@ -14,7 +14,7 @@ import sqlalchemy as sa
 from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
 
 DATABASE_URL = 'sqlite:///./test.db'
-SECRET = 'SECRET'
+SECRET = 'SECRET'  # CHANGE THIS!!
 
 
 class User(user_models.BaseUser):
@@ -47,7 +47,7 @@ engine = sa.create_engine(DATABASE_URL, connect_args={'check_same_thread': False
 users = UserTable.__table__
 
 
-# user_db = users_db.SQLAlchemyUserDatabase(UserDB, database, users)
+# OLD: user_db = users_db.SQLAlchemyUserDatabase(UserDB, database, users)
 def get_user_db():
     yield users_db.SQLAlchemyUserDatabase(UserDB, database, users)
 
@@ -77,11 +77,11 @@ def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)):
     yield UserManager(user_db)
 
 
-# jwt_authentication = JWTAuthentication(
+# OLD: jwt_authentication = JWTAuthentication(
 #     secret=SECRET, lifetime_seconds=3600, tokenUrl='auth/jwt/login'
 # )
 
-# fastapi_users = FastAPIUsers(
+# OLD: fastapi_users = FastAPIUsers(
 #     user_db, [cookie_authentication], User, UserCreate, UserUpdate, UserDB,
 # )
 
@@ -115,7 +115,7 @@ app.include_router(
 app.include_router(
     fastapi_users.get_register_router(), prefix='/auth', tags=['auth']
 )
-# app.include_router(
+# OLD: app.include_router(
 #     fastapi_users.get_reset_password_router(SECRET), prefix='/auth', tags=['auth'],
 # )
 app.include_router(
@@ -123,6 +123,6 @@ app.include_router(
 )
 app.include_router(fastapi_users.get_users_router(), prefix='/users', tags=['users'])
 
-
+# ADDED:
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=8000)

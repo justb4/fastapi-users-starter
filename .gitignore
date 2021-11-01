@@ -1,4 +1,3 @@
 .vscode
 poetry.lock
 test.db
-alembic

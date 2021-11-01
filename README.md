@@ -1,17 +1,101 @@
-# FastAPI-Users Example
+# FastAPI Users Starter
 
-Based on blogpost:
+This is a template repo to get you started with FastAPI + FastAPI Users.
+
+When you develop your [FastAPI](https://fastapi.tiangolo.com/) project, at some point you will need auth and users. 
+[FastAPI Users](https://fastapi-users.github.io/fastapi-users/) 
+provides *"Ready-to-use and customizable users management for FastAPI"*
+There are several examples like [this](https://github.com/tiangolo/full-stack-fastapi-postgresql) 
+and [this](https://testdriven.io/blog/developing-a-single-page-app-with-fasta) to get you started with full stack FastAPI. 
+But to get grip on the very basics of FastAPI Users I found this blogpost:
 
 https://harrisonmorgan.dev/2021/02/15/getting-started-with-fastapi-users-and-alembic/
+
+Credits here to https://harrisonmorgan.dev ! 
 
 Above Blogpost is from feb 2021. In the meantime FastAPI version and deps increased, so had to make some adaptations.
 These are described below. 
 
-Nice about the original example: all in one file [main.py](myapi/main.py). So to understand
+Great about the original example: all in one file [main.py](myapi/main.py). So to understand
 the key workings of FastAPI+FastAPI-Users+SQLAlchemy[sqlite] together without jumping through
 multiple files. 
 
-## Install 
+This GitHub starter project has done most of the steps for Poetry and Alembic from the blogpost, as to
+give you a super quick start! But for complete understanding be sure to go through the blogpost.
+
+## Quickstart
+
+Make sure you have a virtual env. I use [pyenv](https://github.com/pyenv/pyenv) via Homebrew 
+on Mac OSX. Example uses [poetry](https://python-poetry.org/) which was new to me.
+
+```bash
+
+# Virtual Env for Python 3.8.9
+pyenv virtualenv 3.8.9 fastapi-3.8.9
+pyenv activate fastapi-3.8.9
+
+# https://python-poetry.org/
+pip install poetry
+
+# Suppose we work from this dir
+git clone https://github.com/justb4/fastapi-users-starter.git fastapi-users-starter
+cd ~/fastapi-users-starter
+
+# poetry init is not required as we already have the pyproject.toml file
+
+# Install all packages/dependencies ala pip
+poetry install
+
+# Create initial DB by running Alembic Upgrade
+poetry run alembic upgrade head
+
+# You should see
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 787703593e67, Create FastAPI-Users user table
+
+# Run
+poetry run uvicorn myapi.main:app
+
+# You should see
+INFO:     Started server process [84094]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+
+# Open this URL in browser
+http://127.0.0.1:8000/docs
+
+# register yourself as user: browse to 
+http://127.0.0.1:8000/docs#/auth/register_auth_register_post
+
+# fill in email + password, output should print like
+INFO:     127.0.0.1:62127 - "GET /openapi.json HTTP/1.1" 200 OK
+User cca66e0b-4480-41c6-a95e-... has registered.
+INFO:     127.0.0.1:62269 - "POST /auth/register HTTP/1.1" 201 Created
+
+# Logging in with JWT
+
+# first try gives 401 unauthorized
+http://127.0.0.1:8000/docs#/users/me_users_me_get
+ INFO:     127.0.0.1:62956 - "GET /users/me HTTP/1.1" 401 Unauthorized
+ 
+# login with username/password, JWT cookie will be set in browser
+http://127.0.0.1:8000/docs#/auth/login_auth_jwt_login_post
+ INFO:     127.0.0.1:63100 - "POST /auth/jwt/login HTTP/1.1" 200 OK
+
+# try again, now ok
+http://127.0.0.1:8000/docs#/users/me_users_me_get
+ INFO:     127.0.0.1:63234 - "GET /users/me HTTP/1.1" 200 OK
+
+
+```
+
+
+## Full Install 
+
+These are some of the steps I followed from the original blogpost with my own changes. 
+This is for reference as the Quickstart above will cover initial setup.
 
 Make sure you have a virtual env. I use [pyenv](https://github.com/pyenv/pyenv) via Homebrew 
 on Mac OSX. Example uses [poetry](https://python-poetry.org/) which was new to me.
