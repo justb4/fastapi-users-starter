@@ -28,6 +28,29 @@ give you a super quick start! But for complete understanding be sure to go throu
 
 Make sure you have a virtual env. I use [pyenv](https://github.com/pyenv/pyenv) via Homebrew 
 on Mac OSX. Example uses [poetry](https://python-poetry.org/) which was new to me.
+NB if you want to use regular Python `venv` and `pip` then just do the following:
+
+```bash
+
+# Suppose we work from this dir, or better create new repo from Template in GitHub
+git clone https://github.com/justb4/fastapi-users-starter.git fastapi-users-starter
+cd fastapi-users-starter
+
+python -m venv virtenv
+. virtenv/bin/activate
+
+pip install -r requirements.txt
+alembic upgrade head
+python -m myapi.main
+
+# now continue below at the line
+"# Open this URL in browser"
+
+
+```
+ 
+Below is the full `pyenv` and Poetry-based version as from the blogpost:
+
 
 ```bash
 
@@ -40,7 +63,7 @@ pip install poetry
 
 # Suppose we work from this dir, or better create new repo from Template in GitHub
 git clone https://github.com/justb4/fastapi-users-starter.git fastapi-users-starter
-cd ~/fastapi-users-starter
+cd fastapi-users-starter
 
 # poetry init is not required as we already have the pyproject.toml file
 
