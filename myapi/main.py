@@ -1,5 +1,6 @@
 import uvicorn, uuid
 from typing import Optional
+from collections.abc import AsyncGenerator
 
 import databases
 from fastapi import FastAPI
@@ -18,8 +19,9 @@ from fastapi_users.db import SQLAlchemyBaseUserTableUUID, SQLAlchemyUserDatabase
 
 import sqlalchemy as sa
 from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
-DATABASE_URL = "sqlite:///./test.db"
+DATABASE_URL = "sqlite+aiosqlite:///./test.db"
 SECRET = "SECRET"  # CHANGE THIS!!
 
 
@@ -44,13 +46,22 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     pass
 
 
-engine = sa.create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+engine = create_async_engine(DATABASE_URL)
+async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
 
-users = User.__table__
+
+async def create_db_and_tables():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
 
 
-def get_user_db():
-    yield users_db.SQLAlchemyUserDatabase(UserDB, database, users)
+async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
+    async with async_session_maker() as session:
+        yield session
+
+
+async def get_user_db(session: AsyncSession = Depends(get_async_session)):
+    yield SQLAlchemyUserDatabase(session, User)
 
 
 cookie_transport = CookieTransport(cookie_max_age=3600)
